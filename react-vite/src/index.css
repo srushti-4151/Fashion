@@ -1,27 +1,20 @@
-/* global.css */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* width */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 15px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
-    background: gray;
+    background: white;
     
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: black;
-    border-radius: 5px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: black;
 }
