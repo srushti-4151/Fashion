@@ -9,6 +9,10 @@ import Blog from './Pages/Blog.jsx'
 import Products from './Pages/Products.jsx'
 import About from './Pages/About.jsx'
 import Contact from './Pages/Contact.jsx'
+import ProductPage from './Pages/Productpage.jsx'
+import { Provider } from 'react-redux'
+import { store } from './redux/Store.js'
+import CartPage from './Pages/CartPage.jsx'
 
 const router =  createBrowserRouter(
   createRoutesFromElements(
@@ -18,12 +22,16 @@ const router =  createBrowserRouter(
       <Route path='product' element={<Products/>}/>
       <Route path='about' element={<About/>}/>
       <Route path='contact' element={<Contact/>}/>
+      <Route path="/productpage/:id" element={<ProductPage />} />
+      <Route path="/cart" element={<CartPage />} />
     </Route>
   )
 )
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <Provider store={store}>
+      <RouterProvider router={router}/>
+    </Provider>
   </StrictMode>,
 )

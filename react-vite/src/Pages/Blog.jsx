@@ -155,7 +155,7 @@ const Blog = () => {
                 <textarea
                   rows="5"
                   placeholder="Write your comment..."
-                  className="w-full p-3 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -163,7 +163,7 @@ const Blog = () => {
                 <input
                   type="url"
                   placeholder="Website"
-                  className="w-full p-3 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -171,19 +171,19 @@ const Blog = () => {
                 <input
                   type="text"
                   placeholder="Name"
-                  className="w-full p-3 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div className="col-span-12 md:col-span-6">
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full p-3 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div className="col-span-12">
-              <button className="w-1/4 py-4 bg-black text-white py-3 font-bold hover:bg-blue-700 cursor-pointer">
+              <button className="w-1/4 bg-black text-white py-3 font-bold hover:bg-blue-700 cursor-pointer">
                 SUBMIT
               </button>
               </div>
