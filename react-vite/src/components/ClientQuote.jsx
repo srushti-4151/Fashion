@@ -80,6 +80,7 @@ const QuoteSlider = () => {
 
 const ClientQuote = () => {
     return (
+        <div className="m-auto overflow-hidden">
         <div
             className="bg-gray-100 py-16 pt-20 mt-10"
             style={{
@@ -98,6 +99,7 @@ const ClientQuote = () => {
                     <QuoteSlider />
                 </div>
             </div>
+        </div>
         </div>
     );
 };

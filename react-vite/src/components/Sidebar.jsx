@@ -33,7 +33,7 @@ const categories = [
 
 const Sidebar = () => {
   return (
-    <div className="col-span-12 lg:col-span-4 px-4 lg:px-6">
+    <div className="col-span-12 lg:col-span-4 lg:px-6 m-auto overflow-hidden">
       <div className="pb-4">
         <h5 className="font-bold mb-3 text-2xl">Search</h5>
         <div className="flex items-center border rounded-md overflow-hidden">
@@ -82,7 +82,7 @@ const Sidebar = () => {
                     {post.title}
                   </a>
                 </h6>
-                <div className="text-xl mt-1 text-gray-500">{post.date}</div>
+                <div className="sm:text-base lg:text-xl mt-1 text-gray-500">{post.date}</div>
               </div>
             </div>
           ))}

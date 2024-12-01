@@ -9,6 +9,10 @@ import ClientQuote from "../components/ClientQuote";
 import { FaAngleLeft,FaAngleRight } from "react-icons/fa";
 import SpringCollection from "../components/SpringCollection";
 import AnimatedCarousel from "../components/AnimatedCarousel";
+import { useDispatch } from "react-redux";
+import { addCart } from "../redux/CartSlice";
+import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -31,6 +35,7 @@ function SamplePrevArrow(props) {
     />
   );
 }
+
 const Cardsliders = () => {
   useEffect(() => {
     AOS.init({
@@ -56,6 +61,24 @@ const Cardsliders = () => {
 
     fetchProducts();
   }, []);
+
+  const dispatch = useDispatch();
+  // const handleAddToCart = () => {
+  //   dispatch(addCart({...products}));
+  //   toast.success("Added to Cart!");
+  // }
+  const handleAddToCart = (i) => {
+    dispatch(
+      addCart({
+        id: i.id,
+        title: i.title,
+        price: i.price,
+        quantity: 1,
+        thumbnail: i.thumbnail,
+      })
+    );
+    toast.success("Added to cart.");
+  };
   
     const settings = {
     dots: false,
@@ -93,75 +116,109 @@ const Cardsliders = () => {
         }
       ]
     };
-   return(
-    <div className="w-3/4 m-auto slider-container">
-      <div className="flex items-center justify-between">
-        <h2 className="text-5xl font-semibold text-black mb-1" data-aos="fade-up">Top Selling Products</h2>
+
+  return (
+    <div className="w-full sm:w-3/4 m-auto slider-container overflow-hidden">
+      {/* <div className="flex items-center justify-between mx-3">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-black mb-1" data-aos="fade-up">
+          Top Selling Products
+        </h2>
         <a href="/" className="text-base text-black font-semibold">MORE PRODUCTS</a>
+      </div> */}
+
+      <div className="flex flex-col sm:flex-row sm:justify-between mx-3">
+        <h2
+          className="text-3xl sm:text-4xl lg:text-5xl font-medium text-black mb-2 sm:mb-1"
+          data-aos="fade-up"
+        >
+          Top Selling Products
+        </h2>
+        <a
+          href="/"
+          className="text-base text-black font-semibold"
+        >
+          MORE PRODUCTS
+        </a>
       </div>
 
-        {/* <div>
-        <h2 className="text-5xl font-semibold text-black">Top Selling Products</h2>
-        <h6 className="mr-0 flex justify-end text-xl">more products</h6>
-        </div> */}
-        <hr className="my-6 border-1 border-gray-400" />
-        <div className="mt-20">
+
+      <hr className="my-6 border-1 border-gray-400" />
+      <div className="mt-10 mx-3">
         <Slider {...settings} ref={(slider) => (sliderRef = slider)}>
-            {products.map((i, index) => (
-              <div key={index} className="px-2">
-                <div className="bg-white h-100 text-black rounded-xl border border-black overflow-hidden">
-               
-                  <div className="h-50 rounded-t-xl flex justify-center items-center relative group">
-                    <img src={i.thumbnail} alt="" className="object-cover h-full w-full" />
-                    
-                    <div className="absolute inset-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="flex justify-center items-end mb-1 gap-6">
-                        <button className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100">
+          {products.map((i, index) => (
+            <div key={index} className="px-2">
+              <div className="bg-white h-auto text-black rounded-xl border border-black overflow-hidden">
+                <div className="h-50 rounded-t-xl flex justify-center items-center relative group">
+                  <img src={i.thumbnail} alt={i.title} className="object-cover h-full w-full" />
+
+                  <div className="absolute inset-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex justify-center items-end mb-1 gap-6">
+                      <button className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                         </svg>
-                        </button>
-                        <button className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100">
+                      </button>
+                      <Link
+                        to={`/productpage/${i.id}`}
+                        className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100"
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>
-                        </button>
-                        <button className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100">
+                      </Link>
+                      <button
+                        onClick={() => handleAddToCart(i)}
+                        className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100"
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
-                        </button>
-                      </div>
+                      </button>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center items-center gap-4 p-4">
-                    {/* <p>{i.name}</p> */}
-                    <p className="text-center overflow-hidden whitespace-nowrap text-ellipsis" style={{maxWidth: '150px'}}>{i.title}</p>
-                    <p>₹{i.price}</p>
-                  </div>
+                </div>
+
+                <div className="flex flex-col justify-center items-center gap-4 p-4">
+                  <p className="text-center overflow-hidden whitespace-nowrap text-ellipsis" style={{ maxWidth: '150px' }}>
+                    {i.title}
+                  </p>
+                  <p>₹{i.price}</p>
                 </div>
               </div>
-            ))}
-          </Slider>
-
-            <div className="flex justify-center mt-4">
-              <button className="bg-gray-200 text-black hover:bg-black hover:text-white border border-black p-2 mr-2"
-              onClick={() => sliderRef?.slickPrev()}>
-               <FaAngleLeft />
-              </button>
-              <button className= "bg-gray-200 text-black hover:bg-black hover:text-white border border-black p-2 mr-2"
-              onClick={() => sliderRef?.slickNext()}>
-                <FaAngleRight />
-              </button>
             </div>
+          ))}
+        </Slider>
+
+        <div className="flex justify-center mt-4">
+          <button
+            className="bg-gray-200 text-black hover:bg-black hover:text-white border border-black p-2 mr-2"
+            onClick={() => sliderRef?.slickPrev()}
+          >
+            <FaAngleLeft />
+          </button>
+          <button
+            className="bg-gray-200 text-black hover:bg-black hover:text-white border border-black p-2 mr-2"
+            onClick={() => sliderRef?.slickNext()}
+          >
+            <FaAngleRight />
+          </button>
         </div>
+      </div>
     </div>
-   );
-  
+  );
+
 };
 
 const Cardsliders2 = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      offset: 200,
+      once: false,
+    });
+  }, []);
+
   const [products, setProducts] = useState([]);
   let sliderRef = null;
 
@@ -178,6 +235,24 @@ const Cardsliders2 = () => {
 
     fetchProducts();
   }, []);
+
+  const dispatch = useDispatch();
+  // const handleAddToCart = () => {
+  //   dispatch(addCart({...products}));
+  //   toast.success("Added to Cart!");
+  // }
+  const handleAddToCart = (i) => {
+    dispatch(
+      addCart({
+        id: i.id,
+        title: i.title,
+        price: i.price,
+        quantity: 1,
+        thumbnail: i.thumbnail,
+      })
+    );
+    toast.success("Added to cart.");
+  };
   
     const settings = {
     dots: false,
@@ -215,72 +290,81 @@ const Cardsliders2 = () => {
         }
       ]
     };
-   return(
-    <div className="w-3/4 m-auto slider-container">
-      <div className="flex items-center justify-between">
-        <h2 className="text-5xl font-semibold text-black">Featured Products</h2>
-        <a href="/" className="text-base text-black font-semibold">MORE PRODUCTS</a>
-      </div>
-
-        {/* <div>
-        <h2 className="text-5xl font-semibold text-black">Top Selling Products</h2>
-        <h6 className="mr-0 flex justify-end text-xl">more products</h6>
+    return (
+      <div className="w-full sm:w-3/4 m-auto slider-container overflow-hidden">
+        {/* <div className="flex items-center justify-between mx-3">
+          <h2 className="text-4xl sm:text-5xl font-medium text-black mb-1" data-aos="fade-up">Featured Products</h2>
+          <a href="/" className="text-sm sm:text-base text-black font-semibold">MORE PRODUCTS</a>
         </div> */}
+
+        <div className="flex flex-col sm:flex-row sm:justify-between mx-3">
+            <h2
+              className="text-3xl sm:text-4xl lg:text-5xl font-medium text-black mb-2 sm:mb-1"
+              data-aos="fade-up"
+            >
+              Featured Products
+            </h2>
+            <a
+              href="/"
+              className="text-base text-black font-semibold"
+            >
+              MORE PRODUCTS
+            </a>
+          </div>
+    
         <hr className="my-6 border-1 border-gray-400" />
-        <div className="mt-20">
-        <Slider {...settings} ref={(slider) => (sliderRef = slider)}>
+        <div className="mt-10 mx-3">
+          <Slider {...settings} ref={(slider) => (sliderRef = slider)}>
             {products.map((i, index) => (
               <div key={index} className="px-2">
                 <div className="bg-white h-100 text-black rounded-xl border border-black overflow-hidden">
-               
                   <div className="h-50 rounded-t-xl flex justify-center items-center relative group">
                     <img src={i.thumbnail} alt="" className="object-cover h-full w-full" />
-                    
+    
                     <div className="absolute inset-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <div className="flex justify-center items-end mb-1 gap-6">
                         <button className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                        </svg>
+                          </svg>
                         </button>
-                        <button className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100">
+                        <Link
+                        to={`/productpage/${i.id}`}
+                        className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100"
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>
-                        </button>
-                        <button className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                        </svg>
+                      </Link>
+                        <button onClick={() => handleAddToCart(i)} className="w-12 h-12 bg-white rounded-full shadow-lg border border-zinc-400 flex justify-center items-center text-gray-700 hover:bg-black hover:text-white transition-all duration-300 translate-y-10 group-hover:translate-y-2 opacity-0 group-hover:opacity-100">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                          </svg>
                         </button>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col justify-center items-center gap-4 p-4">
-                    {/* <p>{i.name}</p> */}
-                    <p className="text-center overflow-hidden whitespace-nowrap text-ellipsis" style={{maxWidth: '150px'}}>{i.title}</p>
+                    <p className="text-center overflow-hidden whitespace-nowrap text-ellipsis" style={{ maxWidth: '150px' }}>{i.title}</p>
                     <p>₹{i.price}</p>
                   </div>
                 </div>
               </div>
             ))}
           </Slider>
-
-            <div className="flex justify-center mt-4">
-              <button className="bg-gray-200 text-black hover:bg-black hover:text-white border border-black p-2 mr-2"
-              onClick={() => sliderRef?.slickPrev()}>
-               <FaAngleLeft />
-              </button>
-              <button className= "bg-gray-200 text-black hover:bg-black hover:text-white border border-black p-2 mr-2"
-              onClick={() => sliderRef?.slickNext()}>
-                <FaAngleRight />
-              </button>
-            </div>
+    
+          <div className="flex justify-center mt-4">
+            <button className="bg-gray-200 text-black hover:bg-black hover:text-white border border-black p-2 mr-2" onClick={() => sliderRef?.slickPrev()}>
+              <FaAngleLeft />
+            </button>
+            <button className="bg-gray-200 text-black hover:bg-black hover:text-white border border-black p-2 mr-2" onClick={() => sliderRef?.slickNext()}>
+              <FaAngleRight />
+            </button>
+          </div>
         </div>
-    </div>
-   );
-  
+      </div>
+    );
 };
 
 const Home = () => {
@@ -292,10 +376,9 @@ return (
       <AnimatedCarousel/>
       <SpringCollection/>
       <Cardsliders/>
-     
 
        <div
-          className="w-full overflow-hidden bg-gray-900 text-white py-16 bg-cover bg-center mt-7 mb-16"
+          className="m-auto w-full overflow-hidden bg-gray-900 text-white py-16 bg-cover bg-center mt-7 mb-16"
           style={{
             backgroundImage: `url('https://final-frontend-fashionweb-dummyjson.vercel.app/static/media/asset%2023.022616af241623d7469d.jpeg')`,
           }}

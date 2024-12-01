@@ -112,7 +112,7 @@ const Products = () => {
   console.log(filteredProducts)
 
   return (
-    <div className="container mx-auto py-10 px-20">
+    <div className="container overflow-hidden mx-auto lg:px-20 py-10 px-10">
       <div className="flex flex-wrap -mx-4">
         <div className="w-full lg:w-1/4 px-4 mb-5 lg:mb-0">
           <input
@@ -151,7 +151,11 @@ const Products = () => {
               <div className="dot w-4 h-4 bg-black rounded-full animate-bounce animation-delay-200"></div>
               <div className="dot w-4 h-4 bg-black rounded-full animate-bounce animation-delay-400"></div>
             </div>
-          ) : (
+          ) : filteredProducts.length === 0 ? (
+            <div className="mt-8 flex justify-center">
+              <p className="text-lg font-semibold text-gray-500">No product found.</p>
+            </div>
+          ) :  (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {currentProducts.map((product) => (
               // <div key={product.id} className="border rounded-lg overflow-hidden">
@@ -185,9 +189,9 @@ const Products = () => {
               //   </div>
               // </div>
               <Link
-                to={`/productpage/${product.id}`} // Use React Router's Link to navigate to the product page
+                to={`/productpage/${product.id}`} 
                 key={product.id}
-                className="border rounded-lg overflow-hidden block" // Make the entire product card clickable
+                className="border rounded-lg overflow-hidden block" 
               >
                 <div className="relative">
                   <img
@@ -221,6 +225,10 @@ const Products = () => {
 
 
           {!loading && (
+            filteredProducts.length === 0 ? ( 
+              <div>
+              </div>
+            ) :  (
           // <div className="mt-8 flex justify-center">
           //   <ul className="flex space-x-2">
           //     <li>
@@ -311,7 +319,7 @@ const Products = () => {
                 </li>
               </ul>
           </div>
-          )}
+          ))}
         </div>
       </div>
     </div>

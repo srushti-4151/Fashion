@@ -36,6 +36,7 @@ const SpringCollection = () => {
   ];
 
   return (
+    <div className="m-auto overflow-hidden">
     <div className="mt-10 mb-20 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-20 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -45,8 +46,7 @@ const SpringCollection = () => {
               data-aos={item.aos}
               className="relative group"
             >
-              {/* Image */}
-              <div className="relative overflow-hidden">
+              <div className="relative overflow-hidden mt-4">
                 <img
                   src={item.image}
                   alt={item.alt}
@@ -55,7 +55,6 @@ const SpringCollection = () => {
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
               </div>
 
-              {/* Box */}
                <div
                  className="absolute bottom-[-2px] left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-white shadow-lg shadow-gray-800 p-4 w-72 transition-all duration-500 group-hover:translate-y-[-50px]"
                >
@@ -74,6 +73,8 @@ const SpringCollection = () => {
         </div>
       </div>
     </div>
+    </div>
+
   );
 };
 

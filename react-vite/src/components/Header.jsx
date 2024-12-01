@@ -1,17 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { FaXmark } from "react-icons/fa6";
 import { CiShoppingCart,CiHeart } from "react-icons/ci";
+import { useDispatch, useSelector } from "react-redux";
+import { GoPerson } from "react-icons/go";
+import { resetCart } from "../redux/CartSlice";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const { isLoggedIn, logUser } = useSelector((state) => state.auth);
+  // const cartItemCount = useSelector((state) => state.cart.productCount);
+  // const [cartQuantity, setCartQuantity] = useState(0);
+
+  //  useEffect(() => {
+  //   if (isLoggedIn) {
+  //     setCartQuantity(cartItemCount);
+  //     console.log("User logged in. Cart item count:", cartItemCount);
+  //   } else {
+  //     setCartQuantity(0);
+  //     console.log("User logged out. Cart item count reset.");
+
+  //     dispatch(resetCart({ cart: [] }));
+  //   }
+  // }, [cartItemCount,logUser, isLoggedIn, dispatch]); 
+
+  // const toggleMenu = () => {
+  //   setIsMenuOpen(!isMenuOpen);
+  // };
+ 
+  const cartItemCount = useSelector((state) => state.cart.productCount);
+  const [cartQuantity, setCartQuantity] = useState(0);
+  
+  useEffect(() => {
+    if (isLoggedIn) {
+      setCartQuantity(cartItemCount);
+      console.log("cartItemCount:", cartItemCount);
+    } else {
+      setCartQuantity(0);
+      console.log("cartItemCount:", cartItemCount);
+    }
+  }, [cartItemCount, isLoggedIn]);
+
+
+  console.log(isLoggedIn)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <header className="bg-gray-100 top-0 z-50">
+    <header className="bg-gray-100 top-0 z-50 m-auto overflow-hidden">
       <div className="bg-black text-white text-center py-4 text-sm font-sans">
         Join and get 10% off! Coupon code: FIRST10
       </div>
@@ -82,29 +123,48 @@ const Header = () => {
           </NavLink>
         </div>
 
+        
         <div className="hidden lg:flex items-center space-x-6">
-          <NavLink to="/login">
-            <button className="border border-black px-4 py-2 rounded-md text-black hover:bg-gray-200">
-              Login/Sign In
-            </button>
-          </NavLink>
-          <NavLink
-            to="/wishlist"
-            className="text-black hover:text-orange-400"
-          >
-            <CiHeart className="h-8 w-8" />
+          {!isLoggedIn ? (
+            <NavLink to="/login">
+              <button className="border border-black px-4 py-2 rounded-md text-black hover:bg-gray-200">
+                Login/Sign In
+              </button>
+            </NavLink>
+            ) : (
+            <NavLink
+                  to="/profile"
+                  className={({ isActive }) =>
+                    `hover:text-orange-400 ${
+                      isActive ? "text-orange-400" : "text-gray-800"
+                    }`
+                  }
+                >
+                  <GoPerson className="h-8 w-8"/>
+              </NavLink>
+            )}
+            <NavLink to="/wishlist" className="relative text-black hover:text-orange-400">
+              <CiHeart className="h-8 w-8" />
+              <div className="absolute top-[-5px] right-[-5px] bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {!isLoggedIn ? (0) : (0) }
+              </div>
+            </NavLink>
             
-          </NavLink>
-          <NavLink to="/cart" className="text-gray-800 hover:text-orange-400">
-            <CiShoppingCart className="h-8 w-8"/>
-          </NavLink>
-        </div>
+            <NavLink to="/cart" className="relative text-gray-800 hover:text-orange-400">
+              <CiShoppingCart className="h-8 w-8" />
+              <div className="absolute top-[-5px] right-[-5px] bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartQuantity}  
+                {/* {!isLoggedIn ? (0) : (cartQuantity) } */}
+              </div>
+            </NavLink>
+          </div>
 
+         {/* mobie menu */}
       
         <div className="lg:hidden">
           <button onClick={toggleMenu}>
             {isMenuOpen ? (
-               <XMarkIcon className="h-6 w-6" /> 
+               <FaXmark className="h-6 w-6" /> 
               
             ) : (
                <Bars3Icon className="h-6 w-6" />
@@ -175,11 +235,38 @@ const Header = () => {
           >
             Contact
           </NavLink>
-          <NavLink to="/login" onClick={toggleMenu}>
-            <button className="border border-gray-300 px-6 py-2 rounded-full text-gray-800 hover:bg-gray-200">
-              Login/Sign In
-            </button>
-          </NavLink>
+          {!isLoggedIn ? (
+            <NavLink to="/login" onClick={toggleMenu}>
+              <button className="border border-gray-300 px-6 py-2 rounded-full text-gray-800 hover:bg-gray-200">
+                Login/Sign In
+              </button>
+            </NavLink>
+          ) : (
+            <NavLink
+                  to="/profile"
+                  className={({ isActive }) =>
+                    `hover:text-orange-400 ${
+                      isActive ? "text-orange-400" : "text-gray-800"
+                    }`
+                  }
+                >
+                  <GoPerson className="h-6 w-6"/>
+            </NavLink>
+          )}
+          <NavLink to="/wishlist" onClick={toggleMenu} className="relative text-black hover:text-orange-400">
+              <CiHeart className="h-8 w-8" />
+              <div className="absolute top-[-5px] right-[-5px] bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {!isLoggedIn ? (0) : (0) }
+              </div>
+            </NavLink>
+            
+            <NavLink to="/cart" onClick={toggleMenu} className="relative text-gray-800 hover:text-orange-400">
+              <CiShoppingCart className="h-8 w-8" />
+              <div className="absolute top-[-5px] right-[-5px] bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {/* {cartQuantity}   */}
+                {!isLoggedIn ? (0) : (cartQuantity) }
+              </div>
+            </NavLink>
         </div>
       </div>
     </header>
