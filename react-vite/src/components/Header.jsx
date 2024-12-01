@@ -5,7 +5,6 @@ import { FaXmark } from "react-icons/fa6";
 import { CiShoppingCart,CiHeart } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { GoPerson } from "react-icons/go";
-import { resetCart } from "../redux/CartSlice";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -78,8 +78,8 @@ const ProductPage = () => {
   const handleAddToCart = () => {
     if (quantity > 0) {
       if (cartItem) {
-        // Update the existing cart item quantity
-        dispatch(addCart({ ...product, quantity: cartItem.quantity + quantity }));
+        // Update the existing cart item quantity directly
+        dispatch(addCart({ ...product, quantity }));
         toast.success("Added more to Cart!");
       } else {
         // If the product is not in the cart, add it
@@ -89,7 +89,8 @@ const ProductPage = () => {
     } else {
       toast.error("Please select a quantity greater than 0.");
     }
-  }
+  };
+  
   
   const buttonText = cartItem ? "Add More to Cart" : "Add to Cart";
   
