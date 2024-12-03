@@ -132,7 +132,7 @@ const Header = () => {
             </NavLink>
             ) : (
             <NavLink
-                  to="/profile"
+                  to="/user/dashboard"
                   className={({ isActive }) =>
                     `hover:text-orange-400 ${
                       isActive ? "text-orange-400" : "text-gray-800"
@@ -242,7 +242,7 @@ const Header = () => {
             </NavLink>
           ) : (
             <NavLink
-                  to="/profile"
+                  to="/user"
                   className={({ isActive }) =>
                     `hover:text-orange-400 ${
                       isActive ? "text-orange-400" : "text-gray-800"

@@ -2,11 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../redux/AuthSlice';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const SigninPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
+  const { error } = useSelector((state) => state.auth); 
 
   const {
     register,
@@ -14,7 +15,7 @@ const SigninPage = () => {
     watch,
     formState: { errors },
   } = useForm();
-  
+
   const password = watch("password");
   
   const onSubmit = (data) => {
@@ -27,7 +28,9 @@ const SigninPage = () => {
         password: data.password,
       }
     }));
-    navigate('/');
+    if (Object.keys(errors).length === 0) {
+      navigate('/');
+    }
   };
 
   return (
@@ -58,6 +61,12 @@ const SigninPage = () => {
 
           <div className="shadow-md shadow-white lg:w-1/2 bg-white bg-opacity-50 border border-gray-700 p-6">
             <h3 className="text-2xl font-bold text-center mb-6">Sign up</h3>
+            {error && (
+                <div className="text-red-700 text-center mb-4">
+                  <p>{error}</p>
+                </div>
+              )}
+  
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid gap-4">
                 <div>
@@ -161,12 +170,12 @@ const SigninPage = () => {
                   >
                     REGISTER
                   </button>
-                  <a
-                    href="/login"
+                  <NavLink
+                    to="/login"
                     className="text-xs border bg-white text-black border-black py-2 px-4 hover:bg-black hover:text-white"
                   >
                     Already have an account?
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </form>

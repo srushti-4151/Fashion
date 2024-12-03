@@ -16,6 +16,11 @@ import CartPage from './Pages/CartPage.jsx'
 import LoginPage from './Pages/LoginPage.jsx'
 import SigninPage from './Pages/SigninPage.jsx'
 import Profile from './Pages/Profile.jsx'
+import AccountDashboard from './Pages/AccountDashboard.jsx'
+import OrderDetails from './Pages/OrderDetails.jsx'
+import AddressBook from './Pages/AddressBook.jsx'
+import ResetPass from './Pages/ResetPass.jsx'
+import Proceed from './Pages/Proceed.jsx'
 
 
 const router =  createBrowserRouter(
@@ -30,7 +35,14 @@ const router =  createBrowserRouter(
       <Route path="/cart" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signin" element={<SigninPage />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/proceed" element={<Proceed />} />
+
+      <Route path="/user" element={<Profile />}>
+        <Route path="dashboard" element={<AccountDashboard />} />
+        <Route path="orders" element={<OrderDetails />} />
+        <Route path="address" element={<AddressBook />} />
+        <Route path="reset-password" element={<ResetPass />} /> 
+      </Route>
     </Route>
   )
 )

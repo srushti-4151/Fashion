@@ -66,7 +66,7 @@ const About = () => {
               <div className="flex justify-center mt-4">
                 <input
                   type="submit"
-                  className="bg-white text-black font-semibold text-xs tracking-wide border-2 border-black uppercase py-5 px-12 cursor-pointer hover:bg-black transition"
+                  className="bg-white text-black font-semibold text-xs tracking-wide border-2 border-black uppercase py-5 px-12 cursor-pointer hover:bg-black hover:text-white transition"
                   value="C o n t a c t   U s"
                 />
               </div>

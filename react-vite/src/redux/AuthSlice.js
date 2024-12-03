@@ -29,48 +29,34 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // signup: (state, action) => {
-    //   const { email, password, userData } = action.payload;
-    
-    //   const existingUser = state.userData.find((user) => user.email === email);
-    //   if (existingUser) {
-    //     state.error = "Email already in use.";
-    //     return; 
-    //   }
-    
-    //   const newUser = { ...userData, email, password, cart: [] };
-    //   state.userData.push(newUser);
-      
-    //   state.isLoggedIn = true;
-    //   state.logUser = newUser;
-    //   state.error = null;
-    
-    //   try {
-    //     localStorage.setItem("userData", JSON.stringify(state.userData));
-    //     localStorage.setItem("isLoggedIn", "true");
-    //     localStorage.setItem("logUser", JSON.stringify(newUser));
-    //   } catch (error) {
-    //     console.error("Error saving to localStorage:", error);
-    //     state.error = "An error occurred while saving your data.";
-    //   }
-    // },
     signup: (state, action) => {
-            const newUser = { 
-              ...action.payload.userData, 
-              cart: [] // Initialize the cart for the user
-            };
+        const { email, mobile } = action.payload.userData;
+  
+        const isExistingUser = state.userData.some(
+          (user) => user.email === email || user.mobile === mobile
+        );
       
-            state.userData.push(newUser);
-            localStorage.setItem("userData", JSON.stringify(state.userData));
+        if (isExistingUser) {
+          state.error = "A user with the same email or mobile number already exists.";
+          return;
+        }
+        const newUser = { 
+          ...action.payload.userData, 
+          cart: [],
+          addresses: [],
+          order: [],
+        };
       
-            state.isLoggedIn = true;
-            state.logUser = newUser;
-            state.error = null;
+        state.userData.push(newUser);
+        localStorage.setItem("userData", JSON.stringify(state.userData));
       
-            localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("logUser", JSON.stringify(newUser));
-          },
-
+        state.isLoggedIn = true;
+        state.logUser = newUser;
+        state.error = null;
+      
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("logUser", JSON.stringify(newUser));
+   },
     login: (state, action) => {
       const foundUser = state.userData.find(
         (user) =>
@@ -101,11 +87,34 @@ const authSlice = createSlice({
       localStorage.setItem("isLoggedIn", "false");
       localStorage.setItem("logUser", JSON.stringify(null));
     },
-    
+    resetPassword: (state, action) => {
+      if (!state.logUser) {
+        state.error = "No user is logged in.";
+        return;
+      }
+      const { oldPassword, newPassword } = action.payload;
+
+      if (state.logUser.password !== oldPassword) {
+        state.error = "Incorrect old password.";
+        return;
+      }
+      const updatedUserData = state.userData.map((user) =>
+        user.email === state.logUser.email
+          ? { ...user, password: newPassword }
+          : user
+      );
+
+      state.userData = updatedUserData;
+      state.logUser = { ...state.logUser, password: newPassword };
+      state.error = null;
+
+      localStorage.setItem("userData", JSON.stringify(state.userData));
+      localStorage.setItem("logUser", JSON.stringify(state.logUser));
+    },
   },
 });
 
-export const { signup, login, logout } = authSlice.actions;
+export const { signup, login, logout, resetPassword } = authSlice.actions;
 export default authSlice.reducer;
 
 

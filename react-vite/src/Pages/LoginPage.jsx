@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/AuthSlice";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn, error } = useSelector((state) => state.auth); // Get error from Redux state
-
+  const { isLoggedIn, error } = useSelector((state) => state.auth);
   const { register, 
     handleSubmit, 
     formState: { errors } } = useForm();
@@ -108,12 +107,12 @@ const LoginPage = () => {
               </div>
             </form>
             <div className="text-center">
-              <a
-                href="/signin"
+              <NavLink
+                to="/signin"
                 className="text-xs border bg-white text-black border-black py-2 px-4 hover:bg-black hover:text-white"
               >
                 Create new account
-              </a>
+              </NavLink>
             </div>
           </div>
         </div>

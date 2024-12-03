@@ -4,15 +4,14 @@ import { addCart, removeCart, updateQuantity } from "../redux/CartSlice";
 import { FaInfoCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { BsCaretDown, BsCaretUp } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const CartPage = () => {
   const cart = useSelector((state) => state.cart.cart);
   console.log(cart);
   const dispatch = useDispatch();
   const { isLoggedIn,logUser  } = useSelector((state) => state.auth); 
-
-
+  
   const handleRemove = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -42,7 +41,7 @@ const CartPage = () => {
 
   const shippingCost = 0; 
   const totalCost = calculateSubtotal() + shippingCost;
-
+  
   if (!isLoggedIn) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
@@ -140,6 +139,8 @@ const CartPage = () => {
                 ))}
               </tbody>
             </table>
+
+            
             {/* Mobile View */}
               <div className="md:hidden">
                 {cart.map((item) => (
@@ -164,13 +165,10 @@ const CartPage = () => {
                       </Link>
                     </div>
 
-                    {/* Product Title */}
                     <div className="text-lg font-semibold">{item.title}</div>
 
-                    {/* Product Price */}
                     <div className="text-gray-600">₹{item.price.toFixed(2)}</div>
 
-                    {/* Quantity Controls */}
                     <div className="flex items-center justify-center gap-4">
                       <input
                         type="text"
@@ -198,7 +196,6 @@ const CartPage = () => {
                       </div>
                     </div>
 
-                  {/* Total Price */}
                   <div className="font-bold">₹{(item.price * item.quantity).toFixed(2)}</div>
                 </div>
               ))}
@@ -206,15 +203,14 @@ const CartPage = () => {
 
           </div>
 
-          {/* Subtotal, Shipping, and Total Section */}
           <div className="py-5 space-y-6 lg:px-72">
-            {/* Subtotal */}
+          
             <div className="flex justify-between items-center">
               <h4 className="text-lg font-bold uppercase">Subtotal</h4>
               <span className="text-gray-800 font-medium">₹{calculateSubtotal().toFixed(2)}</span>
             </div>
 
-            {/* Shipping */}
+           
             <div className="flex justify-between items-center">
               <h4 className="text-lg font-bold uppercase">Shipping</h4>
               <div className="flex items-center space-x-2">
@@ -224,17 +220,25 @@ const CartPage = () => {
               </div>
             </div>
 
-            {/* Total */}
+           
             <div className="flex justify-between items-center border-t pt-4">
               <h4 className="text-lg font-bold uppercase">Total</h4>
               <span className="text-gray-800 font-semibold text-xl">₹{totalCost.toFixed(2)}</span>
             </div>
 
-            {/* Proceed to Checkout Button */}
-            <div className="flex justify-center md:justify-end">
+           
+            {/* <div className="flex justify-center md:justify-end">
               <button className="px-6 py-3 bg-gray-800 text-white uppercase font-bold rounded-md hover:bg-gray-700 transition-all duration-200">
                 Proceed to Checkout
               </button>
+            </div> */}
+            <div className="flex justify-center md:justify-end">
+              <NavLink
+                to="/proceed" 
+                className="px-6 py-3 bg-gray-800 text-white uppercase font-bold rounded-md hover:bg-gray-700 transition-all duration-200"
+              >
+                Proceed to Checkout
+              </NavLink>
             </div>
           </div>
         </>

@@ -92,7 +92,7 @@ const ProductPage = () => {
   };
   
   
-  const buttonText = cartItem ? "Add More to Cart" : "Add to Cart";
+  const buttonText = cartItem ? "Update Quantity" : "Add to Cart";
   
 
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
